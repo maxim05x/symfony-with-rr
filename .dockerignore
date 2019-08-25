@@ -1,0 +1,11 @@
+.dockerignore
+Makefile
+docker*.yml
+vendor
+*.log
+.gitignore
+.editorconfig
+.env
+.idea
+.git
+*.local.yml

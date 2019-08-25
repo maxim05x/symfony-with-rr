@@ -1,0 +1,9 @@
+services:
+
+  Features\Service\Storage:
+    public: true
+    autowire: true
+
+  Features\Service\Http:
+    public: true
+    autowire: true

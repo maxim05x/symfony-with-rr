@@ -1,0 +1,70 @@
+version: '3.2'
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  pg-data:
+  home-dir:
+
+services:
+  app: &app-service
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    restart: on-failure
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+      - ./docker/app/app-entrypoint.sh:/app-entrypoint.sh:ro
+      - .:/app:cached
+      - home-dir:/home/user:cached
+    env_file:
+      - ./.env
+    ports:
+      - '4001:80'
+      - '4002:443'
+    command: 'rr serve -v -d -c /app/.rr.dev.yml'
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - app-network
+
+  redis:
+    image: redis:${REDIS_VERSION:-5.0.5}-alpine
+    volumes:
+      - redis-data:/data:cached
+    ports:
+      - 6379
+      - '4004:6379' # Port 4004 for connecting from localhost
+    networks:
+      - app-network
+
+  redis-commander: # <https://github.com/joeferner/redis-commander>
+    image: rediscommander/redis-commander:latest
+    environment:
+      REDIS_HOSTS: 'default:redis:6379:0,cache:redis:6379:1,sessions:redis:6379:2'
+    ports:
+      - '4003:8081'
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:${POSTGRES_VERSION:-11.4}-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASS}
+    volumes:
+      - pg-data:/var/lib/postgresql/data:rw
+    ports:
+      - 5432
+      - '4005:5432' # Port 4005 for connecting from localhost
+    networks:
+      - app-network
