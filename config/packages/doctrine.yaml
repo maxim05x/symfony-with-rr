@@ -10,6 +10,7 @@ doctrine:
         charset:  UTF8
 
     orm:
+        default_repository_class: Happyr\DoctrineSpecification\EntitySpecificationRepository
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true

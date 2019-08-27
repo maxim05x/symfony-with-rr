@@ -2,7 +2,8 @@
 
 namespace App\Security;
 
-use Symfony\Component\Security\Core\Exception\AccountStatusException;
+use App\Entity\User\User;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -13,9 +14,13 @@ class UserChecker implements UserCheckerInterface
         // TODO: Implement checkPreAuth() method.
     }
 
+    /**
+     * @param UserInterface|User $user
+     */
     public function checkPostAuth(UserInterface $user)
     {
-        // TODO: Implement checkPostAuth() method.
+        if ($user instanceof User && !$user->isEnabled()) {
+            throw new AccessDeniedException();
+        }
     }
-
 }

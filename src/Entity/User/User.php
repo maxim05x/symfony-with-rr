@@ -2,50 +2,149 @@
 
 namespace App\Entity\User;
 
+use App\Entity\ModelInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity()
  */
-class User implements UserInterface
+class User implements UserInterface, ModelInterface
 {
     /**
-     * @ORM\Id()
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue()
-     *
      * @var string
+     *
+     * @ORM\Id()
+     * @ORM\Column(type="uuid")
      */
     private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="uuid", unique=true)
+     */
+    private $security;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled;
+
+    /**
+     * User constructor.
+     * @param string $id
+     * @param string $email
+     * @param string $password
+     * @throws Exception
+     */
+    public function __construct(string $id, string $email, string $password)
+    {
+        $this->id = $id;
+        $this->email = $email;
+        $this->password = $password;
+
+        $this->security = Uuid::uuid4()->toString();
+        $this->enabled = false;
+    }
+
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    public static function transformIgnoredAttributes(): array
+    {
+        return [
+            'password',
+            'security',
+        ];
+    }
+
+    /**
+     * @return array
+     */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return ['ROLE_USER'];
     }
 
+    /**
+     * @return string
+     */
     public function getPassword()
     {
-        // TODO: Implement getPassword() method.
+        return $this->password;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        return null;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->email;
     }
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecurity(): string
+    {
+        return $this->security;
+    }
+
+    /**
+     * @param string $security
+     * @return bool
+     * @throws Exception
+     */
+    public function activate(string $security): bool
+    {
+        if ($this->getSecurity() === $security) {
+            $this->security = Uuid::uuid4()->toString();
+            $this->enabled = true;
+        }
+        return $this->isEnabled();
     }
 }

@@ -6,8 +6,10 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "doctrine/annotations": "^1.7",
         "happyr/doctrine-specification": "^1.0",
         "lexik/jwt-authentication-bundle": "^2.6",
+        "ramsey/uuid-doctrine": "^1.5",
         "sensio/framework-extra-bundle": "^5.4",
         "spiral/roadrunner": "^1.4",
         "symfony/console": "4.3.*",
@@ -18,6 +20,9 @@
         "symfony/profiler-pack": "^1.0",
         "symfony/psr-http-message-bridge": "^1.2",
         "symfony/security-bundle": "4.3.*",
+        "symfony/serializer": "4.3.*",
+        "symfony/translation": "4.3.*",
+        "symfony/validator": "4.3.*",
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
