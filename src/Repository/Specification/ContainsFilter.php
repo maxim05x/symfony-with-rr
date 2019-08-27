@@ -7,8 +7,8 @@ use Happyr\DoctrineSpecification\BaseSpecification;
 
 class ContainsFilter extends BaseSpecification
 {
-    const CONTAINS = '%%%s%%';
-    const STARTS_WITH = '%s%%';
+    private const CONTAINS = '%%%s%%';
+    private const STARTS_WITH = '%s%%';
 
     /**
      * @var string

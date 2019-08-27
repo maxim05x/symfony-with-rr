@@ -44,3 +44,7 @@ services:
         autowire: true
         tags:
             - { name: request.param_converter, priority: -2, converter: 'request_collection' }
+
+    App\Http\Service\Finalizer:
+        autowire: true
+        public: true

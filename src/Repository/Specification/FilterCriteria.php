@@ -19,7 +19,7 @@ class FilterCriteria extends BaseSpecification
      */
     private $dqlAlias;
 
-    public static $joinedFields = [];
+    protected static $joinedFields = [];
 
     public function __construct(Filter $filter, ?string $dqlAlias = null)
     {

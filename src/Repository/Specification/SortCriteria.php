@@ -14,7 +14,7 @@ class SortCriteria extends BaseSpecification
      */
     private $sort;
 
-    public static $joinedFields = [];
+    protected static $joinedFields = [];
 
     public function __construct(Sort $sort, $dqlAlias = null)
     {

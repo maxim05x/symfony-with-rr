@@ -45,15 +45,13 @@ abstract class AbstractRepository
         );
 
         $pagination = $collection->getPagination();
-        if (!$pagination->isDisabled()) {
-            $spec->andX(new PaginationCriteria($pagination));
-        }
 
-        if ($pagination->isDisabled()) {
-            return $this->repo->match($spec);
-        } else {
+        if ($pagination->isEnabled()) {
+            $spec->andX(new PaginationCriteria($pagination));
             return new Paginator($this->repo->getQuery($spec), false);
         }
+
+        return $this->repo->match($spec);
     }
 
     /**

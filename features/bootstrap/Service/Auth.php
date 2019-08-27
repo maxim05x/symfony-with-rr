@@ -10,13 +10,9 @@ class Auth
     /** @var JWTManager */
     private $jwtManager;
 
-    /** @var Storage */
-    private $storage;
-
-    public function __construct(JWTManager $jwtManager, Storage $storage)
+    public function __construct(JWTManager $jwtManager)
     {
         $this->jwtManager = $jwtManager;
-        $this->storage = $storage;
     }
 
     /**

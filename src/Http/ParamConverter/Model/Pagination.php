@@ -73,9 +73,9 @@ class Pagination
     /**
      * @return bool
      */
-    public function isDisabled(): bool
+    public function isEnabled(): bool
     {
-        return $this->disabled;
+        return !$this->disabled;
     }
 
     public function disable()
