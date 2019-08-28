@@ -1,0 +1,22 @@
+parameters:
+  user1: 00000000-0000-4000-b000-000000000001
+  user1_email: 'test1@app.by'
+  user1_pass: 'Test1234'
+  user2: 00000000-0000-4000-b000-000000000002
+  user2_email: 'test2@app.by'
+  user2_pass: 'Test1234'
+  user3: 00000000-0000-4000-b000-000000000003
+  user3_email: 'test3@app.by'
+  user3_pass: 'Test1234'
+
+App\Entity\User\User:
+  user_1:
+    __construct: ['<{user1}>', '<{user1_email}>', '<{user1_pass}>']
+    __calls:
+      - activate: ['@user_1->security']
+  user_2:
+    __construct: ['<{user2}>', '<{user2_email}>', '<{user2_pass}>']
+    __calls:
+      - activate: ['@user_2->security']
+  user_3:
+    __construct: ['<{user3}>', '<{user3_email}>', '<{user3_pass}>']

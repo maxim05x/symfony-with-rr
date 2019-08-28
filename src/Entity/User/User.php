@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity()
+ * @ORM\Table(name="users")
  */
 class User implements UserInterface, ModelInterface
 {
@@ -79,6 +80,8 @@ class User implements UserInterface, ModelInterface
         return [
             'password',
             'security',
+            'roles',
+            'salt',
         ];
     }
 
@@ -146,5 +149,10 @@ class User implements UserInterface, ModelInterface
             $this->enabled = true;
         }
         return $this->isEnabled();
+    }
+
+    public function updatePassword(string $password)
+    {
+        $this->password = $password;
     }
 }

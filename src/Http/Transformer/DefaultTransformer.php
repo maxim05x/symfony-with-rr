@@ -3,6 +3,8 @@
 namespace App\Http\Transformer;
 
 use App\Entity\ModelInterface;
+use GBProd\UuidNormalizer\UuidDenormalizer;
+use GBProd\UuidNormalizer\UuidNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -16,6 +18,8 @@ class DefaultTransformer implements TransformerInterface
     public function __construct()
     {
         $this->serializer = new Serializer([
+            new UuidNormalizer(),
+            new UuidDenormalizer(),
             new ObjectNormalizer(),
         ]);
     }

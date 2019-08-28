@@ -6,7 +6,6 @@ use App\Entity\User\User;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Exception;
-use Features\Service\Auth;
 use Features\Service\Http;
 use Features\Service\Json;
 use Features\Service\Loader;
@@ -30,9 +29,6 @@ class BaseContext implements KernelAwareContext
 
     /** @var Loader */
     private $loader;
-
-    /** @var Auth */
-    private $auth;
 
     /** @var Response|null */
     private $lastResponse;
@@ -78,7 +74,7 @@ class BaseContext implements KernelAwareContext
         if (!$user instanceof UserInterface)
             throw new Exception(sprintf('User "%s" not found!', $alias));
 
-        $this->storage->set('token', $this->auth->createToken($user));
+        $this->storage->set('token', $this->getJwtManager()->create($user));
     }
 
     /**
@@ -197,7 +193,7 @@ class BaseContext implements KernelAwareContext
      */
     public function theJsonShouldBeValidAccordingToTheSchema($node, $filename)
     {
-        $filename = __DIR__.'/../../schemas/' . $filename;
+        $filename = __DIR__.'/../schemas/' . $filename;
         $this->checkFile($filename, 'The JSON schema doesn\'t exist');
 
         $json = new Json($this->getJson()->getValue($node));
@@ -226,7 +222,7 @@ class BaseContext implements KernelAwareContext
         $fixtureFiles = [];
         foreach ($fixtures->getRows() as $row) {
             $fileName = $row[0];
-            $filePath = __DIR__.'/../../fixtures/' . $fileName;
+            $filePath = __DIR__.'/../fixtures/' . $fileName;
             $this->checkFile($filePath, sprintf('The YAML fixture "%s" doesn\'t exist', $fileName));
             $value = Yaml::parse((string)file_get_contents($filePath));
             if (array_key_exists('parameters', $value) && is_array($value['parameters'])) {
@@ -299,19 +295,20 @@ class BaseContext implements KernelAwareContext
         }
     }
 
+    /**
+     * @return \Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager|object
+     */
+    private function getJwtManager()
+    {
+        return $this->getContainer()->get('lexik_jwt_authentication.jwt_manager');
+    }
+
     private function initializeServices()
     {
         if (!$this->loader instanceof Loader) {
             $this->loader = new Loader(
                 $this->getContainer()->get('doctrine.orm.entity_manager'),
                 $this->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine'),
-                $this->storage
-            );
-        }
-
-        if (!$this->auth instanceof Auth) {
-            $this->auth = new Auth(
-                $this->getContainer()->get('lexik_jwt_authentication.jwt_manager'),
                 $this->storage
             );
         }

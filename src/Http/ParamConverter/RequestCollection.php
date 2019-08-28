@@ -132,9 +132,9 @@ class RequestCollection
     }
 
     /**
-     * @param string $query
+     * @param string|null $query
      */
-    public function updateSearch(string $query)
+    public function updateSearch(?string $query)
     {
         $this->search->update($query);
     }

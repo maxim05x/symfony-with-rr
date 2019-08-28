@@ -1,0 +1,10 @@
+services:
+
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\DataFixtures\Processor\UserProcessor:
+    arguments:
+      - '@security.user_password_encoder.generic'
+    tags: [ { name: fidry_alice_data_fixtures.processor } ]
