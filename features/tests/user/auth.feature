@@ -14,8 +14,9 @@ Feature: Authenticate user
     """
 
     Then Response code: <code>
-    And print last JSON response
 
     Examples:
       | email           | password       | code |
       | {{user1_email}} | {{user1_pass}} | 200  |
+      | {{user2_email}} | test           | 401  |
+      | {{user3_email}} | {{user3_pass}} | 401  |

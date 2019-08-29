@@ -18,14 +18,14 @@ class Json
     private $accessor;
 
     /**
-     * @param string|array|null $content
+     * @param string|object|null $content
      * @throws Exception
      */
     public function __construct($content)
     {
         if (is_string($content) || is_null($content)) {
             $this->content = $this->decode((string)$content);
-        } elseif (is_array($content)) {
+        } elseif (is_object($content)) {
             $this->content = $content;
         } else {
             throw new Exception("Incompatible type");
@@ -87,7 +87,7 @@ class Json
 
     private function decode(string $content)
     {
-        $result = json_decode($content, true);
+        $result = json_decode($content);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception("The string '$content' is not valid json");

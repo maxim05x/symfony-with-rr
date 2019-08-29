@@ -69,7 +69,6 @@ class Loader
     {
         $purger = new ORMPurger($this->getManager());
         $purger->purge();
-        $this->storage->replace();
     }
 
     public function loadFixtures(array $files, bool $once = true)

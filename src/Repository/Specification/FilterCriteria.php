@@ -47,9 +47,15 @@ class FilterCriteria extends BaseSpecification
 
             if ($filter->getFilter() === Field::FILTER_MULTIPLE) {
                 $value = explode(',', (string)$filter->getValue());
+                if (empty($value)) {
+                    continue;
+                }
                 $spec->andX(Spec::in($field, $value, $dqlAlias));
             } else {
                 $value = $filter->getValue();
+                if (empty($value)) {
+                    continue;
+                }
                 if ($filter->getFilter() === Field::FILTER_CONTAINS) {
                     $spec->andX(new ContainsFilter($field, $value, $dqlAlias));
                 } else {

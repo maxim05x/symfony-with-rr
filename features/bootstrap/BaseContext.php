@@ -12,7 +12,6 @@ use Features\Service\Loader;
 use Features\Service\Storage;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
-use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -104,14 +103,15 @@ class BaseContext implements KernelAwareContext
      * @Then /^Response code: ([^ ]*)$/
      *
      * @param int $expectedCode
+     * @throws Exception
      */
     public function responseCodeShouldBe($expectedCode)
     {
         $actualCode = $this->lastResponse ?
             $this->lastResponse->getStatusCode() : 0;
 
-        if ($actualCode !== $expectedCode) {
-            Assert::assertEquals($expectedCode, $actualCode, sprintf(
+        if ($actualCode != $expectedCode) {
+            throw new Exception(sprintf(
                 "Expected status code '%s', instead '%s' given. \n Response content: \n\r\t %s \n\r\t",
                 $expectedCode, $actualCode, $this->lastResponse ? $this->lastResponse->getContent() : ''
             ));
@@ -143,7 +143,9 @@ class BaseContext implements KernelAwareContext
         }
 
         if (!($value === $actual || $value === json_encode($actual))) {
-            Assert::assertEquals($value, json_encode($actual));
+            throw new Exception(sprintf(
+                'Failed equals asserting that %s.', json_encode($actual)
+            ));
         }
     }
 
@@ -168,7 +170,11 @@ class BaseContext implements KernelAwareContext
             throw $e;
         }
 
-        Assert::assertEquals($count, count((array) $actual));
+        if ($count != count((array) $actual)) {
+            throw new Exception(sprintf(
+                'Failed have count asserting that %s.', count((array) $actual)
+            ));
+        }
     }
 
     /**

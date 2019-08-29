@@ -9,6 +9,7 @@ class UserListRequest extends RequestCollection
 {
     protected $allowedFields = [
         'email' => [
+            'filtered' => true,
             'sortable' => true,
             'type' => Field::FIELD_OWN,
             'filter' => Field::FILTER_SINGLE,

@@ -31,6 +31,11 @@ class Storage
         $this->parameters = $parameters;
     }
 
+    public function all(): array
+    {
+        return $this->parameters;
+    }
+
     /**
      * Replace in source string all {{key}} to storage value
      * @param string|null $source

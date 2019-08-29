@@ -18,7 +18,7 @@ class LoginRequest extends RequestObject
                     new Assert\Email(),
                 ],
                 'password' => [
-                    new Assert\Time('string'),
+                    new Assert\Type('string'),
                     new Assert\NotBlank(),
                 ]
             ]
