@@ -19,4 +19,4 @@ Feature: Authenticate user
       | email           | password       | code |
       | {{user1_email}} | {{user1_pass}} | 200  |
       | {{user2_email}} | test           | 401  |
-      | {{user3_email}} | {{user3_pass}} | 401  |
+      | {{user3_email}} | {{user3_pass}} | 200  |

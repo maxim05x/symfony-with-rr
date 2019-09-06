@@ -87,6 +87,7 @@ COPY . /app/
 
 RUN set -xe \
     && chmod +x /app-entrypoint.sh \
+    && chmod -R 755 /app/config/jwt \
     && composer --version \
     && php -v \
     && php -m \

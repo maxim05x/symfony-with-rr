@@ -82,7 +82,12 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "behat": "@php ./vendor/bin/behat --colors --format=pretty",
+      "behat": [
+          "@php ./bin/console doctrine:database:create --env=test",
+          "@php ./bin/console doctrine:schema:drop --force --env=test",
+          "@php ./bin/console doctrine:schema:update --force --env=test",
+          "@php ./vendor/bin/behat --colors --format=pretty"
+        ],
         "phpunit": "@php ./bin/phpunit --no-coverage --color=always",
         "phpunit-cover": "@php ./bin/phpunit --color=always",
         "phpstan": "@php ./vendor/bin/phpstan analyze -c ./phpstan.neon.dist --no-progress --ansi",

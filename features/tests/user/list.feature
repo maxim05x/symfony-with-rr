@@ -1,8 +1,9 @@
 Feature: List users
 
   Scenario Outline: List with filters users
-    Given the following fixtures are loaded:
+    Given first the following fixtures are loaded:
       | users.yaml |
+    And run next in transaction
     And I am as 'user1'
 
     When I send a GET request to '/api/v1/users<params>'
@@ -18,8 +19,9 @@ Feature: List users
 
 
   Scenario Outline: List with ordering users
-    Given the following fixtures are loaded:
+    Given first the following fixtures are loaded:
       | users.yaml |
+    And run next in transaction
     And I am as 'user1'
 
     When I send a GET request to '/api/v1/users<params>'

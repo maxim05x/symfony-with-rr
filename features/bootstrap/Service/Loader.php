@@ -4,7 +4,6 @@ namespace Features\Service;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\SchemaTool;
 use Fidry\AliceDataFixtures\LoaderInterface;
 
 class Loader
@@ -27,8 +26,6 @@ class Loader
         $this->loader = $loader;
         $this->storage = $storage;
         $this->transaction = false;
-
-        $this->createSchema($manager);
     }
 
     /**
@@ -91,12 +88,5 @@ class Loader
         $this->loader->load($files);
         $this->getManager()->flush();
         $this->getManager()->clear();
-    }
-
-    private function createSchema(EntityManagerInterface $manager)
-    {
-        $schemaTool = new SchemaTool($manager);
-        $schemaTool->dropDatabase();
-        $schemaTool->createSchema($manager->getMetadataFactory()->getAllMetadata());
     }
 }

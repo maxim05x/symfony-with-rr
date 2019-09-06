@@ -20,7 +20,7 @@ class Http
      * @param string $baseUrl
      * @param string $authKey
      */
-    public function __construct(Storage $storage, string $baseUrl = '', string $authKey = 'HTTP_X_Authorization')
+    public function __construct(Storage $storage, string $baseUrl = '', string $authKey = 'HTTP_Authorization')
     {
         $this->storage = $storage;
         $this->baseUrl = $baseUrl;

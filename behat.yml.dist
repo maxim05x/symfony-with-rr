@@ -1,12 +1,18 @@
 default:
     suites:
+
         default:
+            paths:
+                - '%paths.base%/features/tests'
             contexts:
-                - FeatureContext:
-                    kernel: '@kernel'
+                - Features\BaseContext
 
     extensions:
         Behat\Symfony2Extension:
             kernel:
                 bootstrap: features/bootstrap/bootstrap.php
                 class: App\Kernel
+        Zalas\Behat\NoExtension:
+            argument_resolver: true
+            imports:
+                - features/bootstrap/config/services.yaml

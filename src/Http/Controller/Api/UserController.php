@@ -22,7 +22,7 @@ class UserController extends AppController
      */
     public function listAction(UserListRequest $request, UserRepository $repository)
     {
-//        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         return $this->resource($repository->getList($request))->asResponse();
     }

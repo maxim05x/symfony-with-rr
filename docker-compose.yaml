@@ -16,8 +16,6 @@ services:
       dockerfile: ./docker/app/Dockerfile
     restart: on-failure
     volumes:
-      - /etc/passwd:/etc/passwd:ro
-      - /etc/group:/etc/group:ro
       - ./docker/app/app-entrypoint.sh:/app-entrypoint.sh:ro
       - .:/app:cached
       - home-dir:/home/user:cached
